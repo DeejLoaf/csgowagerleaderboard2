@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Top Wagers</title>
+</head>
+<body>
+  <div id="top-wagers"></div>
+
+  <script>
+    fetch('https://csgobig.com/api/partners/getRefDetails/Sav21faqfaslkhafsa?from=1672534861000&to=1702383132000')
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          displayTopWagers(data.results);
+        }
+      })
+      .catch(error => console.error('Error fetching data:', error));
+
+    function displayTopWagers(results) {
+      const topWagers = results.sort((a, b) => b.wagerTotal - a.wagerTotal).slice(0, 10);
+      const container = document.getElementById('top-wagers');
+      topWagers.forEach(player => {
+        const playerInfo = document.createElement('div');
+        playerInfo.textContent = `Name: ${player.name} - Wager Total: ${player.wagerTotal}`;
+        container.appendChild(playerInfo);
+      });
+    }
+  </script>
+</body>
+</html>
